@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class CollectableItem : MonoBehaviour
 {
-
     private CircleCollider2D coll;
-    [SerializeField] private AudioClip[] collectableItemSFX;
+
+    [SerializeField]
+    private AudioClip[] collectableItemSFX;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +19,14 @@ public class CollectableItem : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SFXController.instance.PlaySound(collectableItemSFX);
-            GameObject effect = Instantiate(GameManager.instance.collectableItemEffect, transform.position, Quaternion.identity);
+            SFXController.instance.PlaySound(collectableItemSFX, 2);
+            GameObject effect = Instantiate(
+                GameManager.instance.collectableItemEffect,
+                transform.position,
+                Quaternion.identity
+            );
             Destroy(gameObject);
             Destroy(effect, 0.35f);
         }
     }
-
 }

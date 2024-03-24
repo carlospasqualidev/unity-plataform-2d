@@ -11,17 +11,20 @@ public class SFXController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
 
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlaySound(AudioClip[] audioClips)
+    public void PlaySound(AudioClip[] audioClips, float volume = 1f)
     {
-        if (audioClips.Length == 0) return;
+        if (audioClips.Length == 0)
+            return;
 
         int randomIndex = Random.Range(0, audioClips.Length);
-        audioSource.PlayOneShot(audioClips[randomIndex]);
+        audioSource.PlayOneShot(audioClips[randomIndex], volume);
     }
 }

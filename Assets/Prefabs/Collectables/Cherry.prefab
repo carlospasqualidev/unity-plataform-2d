@@ -156,7 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectableItemSFX:
-  - {fileID: 8300000, guid: c007cc8cadb255241a7fd04452738e1b, type: 3}
-  - {fileID: 8300000, guid: 4ab24f94da43f3d4fa165cafb8304231, type: 3}
-  - {fileID: 8300000, guid: fe9295bc78854da46ab2530178227d66, type: 3}
-  - {fileID: 8300000, guid: e8ae2af3d07095841bbe5a593223b34d, type: 3}
+  - {fileID: 8300000, guid: 5196253e5bb6a264b9b7bda873ae7a32, type: 3}
+  - {fileID: 8300000, guid: 757b25fd07316a841b5d5556561450c1, type: 3}
+  - {fileID: 8300000, guid: ef1a5742a8d01eb4fb2135691516b59d, type: 3}
+  - {fileID: 8300000, guid: 69493d4233a6fe3439fc078829cb9d0f, type: 3}
+  - {fileID: 8300000, guid: 32abd0fd20462aa408fd07f42f5680b8, type: 3}

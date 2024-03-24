@@ -66,6 +66,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float _grounderDistance = 0.05f; //Distância do chão
 
+    [Header("SOUNDS")]
+    [SerializeField]
+    private float stepTimeInterval = 0.25f; //Intervalo de tempo entre os passos
+
+    [SerializeField]
+    private AudioClip[] stepSounds; //Sons de passos
+
+    [SerializeField]
+    private AudioClip[] jumpSounds; //Sons de pulo
+
+    private float stepTime; //Tempo entre os passos
+
     // Implementação da interface IPlayerController
     public event Action<bool, float> GroundedChanged;
     public event Action Jumped;
@@ -95,6 +107,7 @@ public class PlayerController : MonoBehaviour
         ApplyMovement();
         HandleAnimations();
         DustParticles();
+        PlayStepSound();
     }
 
     #region  MOVEMENT
@@ -115,6 +128,7 @@ public class PlayerController : MonoBehaviour
         {
             _jumpToConsume = true;
             _timeJumpWasPressed = _time;
+            SFXController.instance.PlaySound(jumpSounds);
         }
     }
 
@@ -202,6 +216,7 @@ public class PlayerController : MonoBehaviour
             _coyoteUsable = true;
             _bufferedJumpUsable = true;
             _endedJumpEarly = false;
+
             GroundedChanged?.Invoke(true, Mathf.Abs(_frameVelocity.y));
         }
         // Se deixou o chão, atualiza as flags e invoca o evento GroundedChanged
@@ -305,6 +320,21 @@ public class PlayerController : MonoBehaviour
         else
         {
             _dustParticles.Stop();
+        }
+    }
+
+    #endregion
+
+    #region SOUNDS
+
+    private void PlayStepSound()
+    {
+        stepTime += Time.deltaTime;
+
+        if (stepTime >= stepTimeInterval && _grounded && _frameVelocity.x != 0)
+        {
+            SFXController.instance.PlaySound(stepSounds);
+            stepTime = 0f; // Resetar o tempo
         }
     }
 

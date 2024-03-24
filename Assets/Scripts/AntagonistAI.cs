@@ -5,32 +5,37 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.XR;
 
-public class EnemyAI : MonoBehaviour
+public class AntagonistAI : MonoBehaviour
 {
-    [SerializeField]
-    private Transform target;
-
+    [Header("MOVEMENT")]
     [SerializeField]
     private float speed;
 
     [SerializeField]
     private LayerMask enemyLayer;
 
+    private Transform target;
     private Rigidbody2D body;
     private Animator anim;
     private CapsuleCollider2D col;
     private SpriteRenderer sprite;
     private bool isGrounded;
-    private float time;
-
     private List<Vector2> movePositions;
-    private bool cachedQueryStartInColliders;
     private ParticleSystem dustParticles;
+    private readonly int isGroundedHash = Animator.StringToHash("is_grounded");
+    private float stepTime;
+    private bool isJumping;
 
-    private int velocityXHash = Animator.StringToHash("velocity_x");
-    private int isGroundedHash = Animator.StringToHash("is_grounded");
+    [Header("SOUNDS")]
+    [SerializeField]
+    private float stepTimeInterval = 0.25f; //Intervalo de tempo entre os passos
 
-    // Start is called before the first frame update
+    [SerializeField]
+    private AudioClip[] stepSounds; //Sons de passos
+
+    [SerializeField]
+    private AudioClip[] jumpSounds; //Sons de pulo
+
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
@@ -39,6 +44,7 @@ public class EnemyAI : MonoBehaviour
         col = GetComponent<CapsuleCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         dustParticles = GetComponentInChildren<ParticleSystem>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
@@ -49,6 +55,8 @@ public class EnemyAI : MonoBehaviour
         HandleAnimations();
         CheckCollisions();
         DustParticles();
+
+        PlayStepSound();
     }
 
     void HandlePositions()
@@ -101,6 +109,20 @@ public class EnemyAI : MonoBehaviour
         );
 
         isGrounded = groundHit;
+
+        print(isJumping);
+        if (!groundHit)
+        {
+            if (isJumping)
+                return;
+
+            SFXController.instance.PlaySound(jumpSounds, 0.25f);
+            isJumping = true;
+        }
+        else
+        {
+            isJumping = false;
+        }
     }
 
     void DustParticles()
@@ -109,5 +131,16 @@ public class EnemyAI : MonoBehaviour
             dustParticles.Play();
         else
             dustParticles.Stop();
+    }
+
+    private void PlayStepSound()
+    {
+        stepTime += Time.deltaTime;
+
+        if (stepTime >= stepTimeInterval && isGrounded && body.velocity.x != 0)
+        {
+            SFXController.instance.PlaySound(stepSounds, 0.25f);
+            stepTime = 0f; // Resetar o tempo
+        }
     }
 }
