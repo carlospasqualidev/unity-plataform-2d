@@ -73,9 +73,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private AudioClip[] stepSounds; //Sons de passos
 
-    [SerializeField]
-    private AudioClip[] jumpSounds; //Sons de pulo
-
     private float stepTime; //Tempo entre os passos
 
     // Implementação da interface IPlayerController
@@ -128,7 +125,9 @@ public class PlayerController : MonoBehaviour
         {
             _jumpToConsume = true;
             _timeJumpWasPressed = _time;
-            SFXController.instance.PlaySound(jumpSounds);
+
+            if (_grounded)
+                SFXController.instance.PlayJumpSound();
         }
     }
 
@@ -340,6 +339,41 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region TAKE DAMAGE
+    public void TakeDamage(Vector2 damageDirection)
+    {
+        print("player hited");
+    }
+
+    public void Knockback(KnockbackType type, float force = 50f)
+    {
+        switch (type)
+        {
+            case KnockbackType.Up:
+                _frameVelocity.y = force;
+                break;
+            case KnockbackType.Down:
+                _frameVelocity.y = -force;
+                break;
+            case KnockbackType.Left:
+                _frameVelocity.x = -force;
+                break;
+            case KnockbackType.Right:
+                _frameVelocity.x = force;
+                break;
+        }
+    }
+
+    #endregion
+
+    //knoback types
+    public enum KnockbackType
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
 
     public struct FrameInput //Struct de entrada do frame para o jogador
     {
