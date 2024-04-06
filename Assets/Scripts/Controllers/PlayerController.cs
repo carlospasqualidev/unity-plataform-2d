@@ -340,9 +340,9 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region TAKE DAMAGE
-    public void TakeDamage(Vector2 damageDirection)
+    public void TakeDamage()
     {
-        print("player hited");
+        GameManager.instance.DecrementPlayerLife();
     }
 
     public void Knockback(KnockbackType type, float force = 50f)

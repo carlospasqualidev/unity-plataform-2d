@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,12 +8,23 @@ public class SceneLoader : MonoBehaviour
     [SerializeField]
     private SceneTypes sceneToLoad;
 
+    [SerializeField]
+    private Animator sceneFaderAnimator;
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadSceneAsync(sceneToLoad.ToString());
+            StartCoroutine(LoadScene());
         }
+    }
+
+    IEnumerator LoadScene()
+    {
+        yield return null;
+        sceneFaderAnimator.SetTrigger("fade");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(sceneToLoad.ToString());
     }
 
     enum SceneTypes

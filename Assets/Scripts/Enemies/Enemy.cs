@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private bool invertFlip = false;
+    private float timeForNextDamage = 0.5f;
 
     private Rigidbody2D body;
     private SpriteRenderer spriteRenderer;
@@ -31,11 +32,18 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        timeForNextDamage += Time.deltaTime;
         spriteRenderer.flipX = invertFlip ? FlipSprite : !FlipSprite;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (timeForNextDamage < 0.5f)
+        {
+            timeForNextDamage = 0;
+            return;
+        }
+
         if (!collision.CompareTag("Player"))
             return;
 
@@ -52,7 +60,7 @@ public class Enemy : MonoBehaviour
                     : PlayerController.KnockbackType.Right,
                 knobackForce
             );
-            player.TakeDamage(Vector2.up);
+            player.TakeDamage();
             return;
         }
 
