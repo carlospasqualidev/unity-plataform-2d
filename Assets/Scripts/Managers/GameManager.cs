@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject collectableItemEffect;
     public GameObject enemyDieEffect;
     public Image[] imageLifeCherrys;
+    public TextMeshProUGUI playerScoreText;
     public int maxPlayerLife = 3;
     public int playerLife;
     public int playerScore;
@@ -19,17 +21,19 @@ public class GameManager : MonoBehaviour
         playerLife = maxPlayerLife;
     }
 
-    public void DecrementPlayerLife()
+    public void DecrementPlayerLife(int life = 1)
     {
+        playerLife -= life;
+
         if (playerLife < 1)
         {
             print("Game Over!");
+
+            imageLifeCherrys[0].color = Color.gray;
             return;
         }
-        playerLife--;
 
         imageLifeCherrys[playerLife].color = Color.gray;
-        print("Player Life: " + playerLife);
     }
 
     public void IncrementPlayerLife()
@@ -45,5 +49,6 @@ public class GameManager : MonoBehaviour
     public void IncrementPlayerScore()
     {
         playerScore++;
+        playerScoreText.text = playerScore.ToString("D3");
     }
 }
