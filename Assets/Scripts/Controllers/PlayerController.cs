@@ -123,11 +123,11 @@ public class PlayerController : MonoBehaviour
         // Se o botão de pulo foi pressionado, ativa a flag para consumir o pulo e registra o tempo em que foi pressionado
         if (_frameInput.JumpDown)
         {
-            _jumpToConsume = true;
-            _timeJumpWasPressed = _time;
-
             if (_grounded)
                 SFXController.instance.PlayJumpSound();
+
+            _jumpToConsume = true;
+            _timeJumpWasPressed = _time;
         }
     }
 

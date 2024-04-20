@@ -4908,8 +4908,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 72de0c64f2c6a498096698322c976a67, type: 3}
-  m_Color: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 84e524608a67c5d47adf9ff6fbd2f5fe, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5030,6 +5030,3 @@ MonoBehaviour:
   - {fileID: 8300000, guid: dc29d4f36e2fd354488a26b95a22f573, type: 3}
   - {fileID: 8300000, guid: 504377ed6be6ddc40b8f787e7419fd4a, type: 3}
   - {fileID: 8300000, guid: 455e555c06adc7843b742cdc1ac4cfaf, type: 3}
-  jumpSounds:
-  - {fileID: 8300000, guid: e29d877abbc076641bc155ccee4507b0, type: 3}
-  - {fileID: 8300000, guid: a35f32824fdf56d47a7420500b5b6b70, type: 3}

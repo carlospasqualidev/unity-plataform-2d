@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
             playerLife++;
         }
         imageLifeCherrys[playerLife - 1].color = Color.white;
-        print("Player Life: " + playerLife);
     }
 
     public void IncrementPlayerScore()
