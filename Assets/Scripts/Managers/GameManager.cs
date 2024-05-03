@@ -16,9 +16,7 @@ public class GameManager : MonoBehaviour
     public int playerScore;
     public Animator fadeAnimator;
     public SceneTypes currentScene;
-
-    [Header("Scene to load")]
-    public SceneTypes sceneToLoad;
+    public PlayerController playerController;
 
     void Start()
     {
@@ -34,10 +32,13 @@ public class GameManager : MonoBehaviour
 
         if (playerLife < 1)
         {
-            
+            playerController.Die();
             SceneLoad(currentScene);
 
             imageLifeCherrys[0].color = Color.gray;
+            imageLifeCherrys[1].color = Color.gray;
+            imageLifeCherrys[2].color = Color.gray;
+
             return;
         }
 
