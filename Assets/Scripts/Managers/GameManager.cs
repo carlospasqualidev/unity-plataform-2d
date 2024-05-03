@@ -1,5 +1,7 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,6 +14,11 @@ public class GameManager : MonoBehaviour
     public int maxPlayerLife = 3;
     public int playerLife;
     public int playerScore;
+    public Animator fadeAnimator;
+    public SceneTypes currentScene;
+
+    [Header("Scene to load")]
+    public SceneTypes sceneToLoad;
 
     void Start()
     {
@@ -27,7 +34,8 @@ public class GameManager : MonoBehaviour
 
         if (playerLife < 1)
         {
-            print("Game Over!");
+            
+            SceneLoad(currentScene);
 
             imageLifeCherrys[0].color = Color.gray;
             return;
@@ -50,4 +58,27 @@ public class GameManager : MonoBehaviour
         playerScore++;
         playerScoreText.text = playerScore.ToString("D3");
     }
+
+
+    #region SCENE LOADER
+    public void SceneLoad(SceneTypes sceneToLoad)
+    {
+        StartCoroutine(LoadScene(sceneToLoad));
+    }
+
+
+    IEnumerator LoadScene(SceneTypes sceneToLoad)
+    {
+        yield return null;
+        fadeAnimator.SetTrigger("fade");
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(sceneToLoad.ToString());
+    }
+
+    public enum SceneTypes
+    {
+        Level_1,
+        Level_2,
+    }
+    #endregion
 }

@@ -7,7 +7,10 @@ public class Enemy : MonoBehaviour
     private float speed;
 
     [SerializeField]
-    private float knobackForce = 20f;
+    private bool hasDust = true;
+
+    [SerializeField]
+    private float knobackForce = 40f;
 
     [SerializeField]
     private bool invertFlip = false;
@@ -25,8 +28,10 @@ public class Enemy : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
-        dustParticles = GetComponentInChildren<ParticleSystem>();
 
+        if (!hasDust) return;
+
+        dustParticles = GetComponentInChildren<ParticleSystem>();
         dustParticles.Play();
     }
 
@@ -49,10 +54,12 @@ public class Enemy : MonoBehaviour
 
         PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
+        bool hitFromUp = collision.transform.position.y > boxCollider.bounds.max.y;
         bool hitFromLeft = collision.transform.position.x < boxCollider.bounds.min.x;
         bool hitFromRight = collision.transform.position.x > boxCollider.bounds.max.x;
+        bool hitFromBottom = collision.transform.position.y < boxCollider.bounds.min.y;
 
-        if (hitFromLeft || hitFromRight)
+        if (!hitFromUp && (hitFromLeft || hitFromRight || hitFromBottom))
         {
             player.Knockback(
                 hitFromLeft

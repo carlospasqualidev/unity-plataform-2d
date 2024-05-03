@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _time += Time.deltaTime; //Atualiza o tempo
+
         GetPlayerInput();
     }
 
@@ -339,7 +340,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region TAKE DAMAGE
+    #region TAKE DAMAGE AND DIE
     public void TakeDamage()
     {
         GameManager.instance.DecrementPlayerLife();
@@ -363,6 +364,19 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
+    public void Die()
+    {
+        if (GameManager.instance.playerLife > 1) return;
+
+        SFXController.instance.PlayHitSound();
+        GameObject effect = Instantiate(
+            GameManager.instance.enemyDieEffect,
+            transform.position,
+            Quaternion.identity
+        );
+        Destroy(gameObject);
+        Destroy(effect, 0.35f);
+    }
 
     #endregion
 
@@ -381,4 +395,8 @@ public class PlayerController : MonoBehaviour
         public bool JumpHeld; //Flag de pulo mantido
         public Vector2 Move; //Entrada de movimento
     }
+
+
+
+
 }
