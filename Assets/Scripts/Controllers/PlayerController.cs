@@ -32,8 +32,8 @@ public class PlayerController : MonoBehaviour
     private float _jumpBuffer = 0.2f; //quantidade de tempo que armazenamos um salto. Isso permite a entrada do salto antes de realmente atingir o solo
     private bool _jumpToConsume; //Flag de pulo a ser consumido
     private bool _coyoteUsable; //Flag de 'Coyote Time' a ser consumido
-    private bool _grounded; //Flag de chão
-    private bool _bufferedJumpUsable; //Flag de pulo bufferizado a ser consumido
+    private bool _grounded = true; //Flag de chão
+    private bool _bufferedJumpUsable = false; //Flag de pulo bufferizado a ser consumido
     private bool _endedJumpEarly; //Flag de pulo encerrado prematuramente
     private float _timeJumpWasPressed; //Tempo em que o pulo foi pressionado
     private float _frameLeftGrounded = float.MinValue; //Tempo em que o jogador deixou o chão
@@ -124,9 +124,6 @@ public class PlayerController : MonoBehaviour
         // Se o botão de pulo foi pressionado, ativa a flag para consumir o pulo e registra o tempo em que foi pressionado
         if (_frameInput.JumpDown)
         {
-            if (_grounded)
-                SFXController.instance.PlayJumpSound();
-
             _jumpToConsume = true;
             _timeJumpWasPressed = _time;
         }
@@ -254,7 +251,10 @@ public class PlayerController : MonoBehaviour
 
         // Executa o pulo se estiver no chão ou se o 'Coyote Time' estiver ativo
         if (_grounded || CanUseCoyote)
+        {
+            SFXController.instance.PlayJumpSound();
             ExecuteJump();
+        }
 
         // Reseta a flag de pulo a ser consumido
         _jumpToConsume = false;
@@ -364,9 +364,11 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
+
     public void Die()
     {
-        if (GameManager.instance.playerLife > 1) return;
+        if (GameManager.instance.playerLife > 1)
+            return;
 
         SFXController.instance.PlayHitSound();
         GameObject effect = Instantiate(
@@ -395,8 +397,4 @@ public class PlayerController : MonoBehaviour
         public bool JumpHeld; //Flag de pulo mantido
         public Vector2 Move; //Entrada de movimento
     }
-
-
-
-
 }
