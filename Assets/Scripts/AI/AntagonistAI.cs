@@ -1,9 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using TMPro;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class AntagonistAI : MonoBehaviour
 {
@@ -13,6 +9,9 @@ public class AntagonistAI : MonoBehaviour
 
     [SerializeField]
     private LayerMask enemyLayer;
+
+    [SerializeField]
+    private Transform Feet;
 
     private Transform target;
     private Rigidbody2D body;
@@ -95,15 +94,11 @@ public class AntagonistAI : MonoBehaviour
 
     void CheckCollisions()
     {
-        bool groundHit = Physics2D.CapsuleCast(
-            col.bounds.center,
-            col.size,
-            col.direction,
-            0,
-            Vector2.down,
-            0.10f,
-            ~enemyLayer
-        );
+        LayerMask groundLayer = LayerMask.GetMask("Ground");
+
+        bool groundHit = Physics2D.OverlapCircle(Feet.position, 0.2f, groundLayer);
+
+        Debug.Log(groundHit);
 
         isGrounded = groundHit;
 

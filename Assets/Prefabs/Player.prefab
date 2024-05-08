@@ -212,9 +212,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: dc29d4f36e2fd354488a26b95a22f573, type: 3}
   - {fileID: 8300000, guid: 504377ed6be6ddc40b8f787e7419fd4a, type: 3}
   - {fileID: 8300000, guid: 455e555c06adc7843b742cdc1ac4cfaf, type: 3}
-  jumpSounds:
-  - {fileID: 8300000, guid: e29d877abbc076641bc155ccee4507b0, type: 3}
-  - {fileID: 8300000, guid: a35f32824fdf56d47a7420500b5b6b70, type: 3}
 --- !u!1001 &4865538068506206910
 PrefabInstance:
   m_ObjectHideFlags: 0
