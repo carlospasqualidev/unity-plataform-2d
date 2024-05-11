@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour
     {
         playerScore++;
         playerScoreText.text = playerScore.ToString("D3");
+
+        if(playerScore >= 7)
+        {
+            SceneLoad(SceneTypes.Menu);
+        }
     }
 
 
@@ -78,8 +83,8 @@ public class GameManager : MonoBehaviour
 
     public enum SceneTypes
     {
+        Menu,
         Level_1,
-        Level_2,
     }
     #endregion
 }
