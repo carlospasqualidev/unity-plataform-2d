@@ -19,14 +19,6 @@ public class CollectableItem : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             ExecuteAction();
-            SFXController.instance.PlaySound(collectableItemSFX, 2);
-            GameObject effect = Instantiate(
-                GameManager.instance.collectableItemEffect,
-                transform.position,
-                Quaternion.identity
-            );
-            Destroy(gameObject);
-            Destroy(effect, 0.35f);
         }
     }
 
@@ -35,11 +27,29 @@ public class CollectableItem : MonoBehaviour
         switch (Action)
         {
             case CollectableItemType.Health:
-                GameManager.instance.IncrementPlayerLife();
+                if (GameManager.instance.playerLife < GameManager.instance.maxPlayerLife)
+                {
+                    GameManager.instance.IncrementPlayerLife();
+                    OnInteractableDestroy();
+                }
                 break;
             case CollectableItemType.Score:
                 GameManager.instance.IncrementPlayerScore();
+                OnInteractableDestroy();
+
                 break;
         }
+    }
+
+    private void OnInteractableDestroy()
+    {
+        SFXController.instance.PlaySound(collectableItemSFX, 2);
+        GameObject effect = Instantiate(
+            GameManager.instance.collectableItemEffect,
+            transform.position,
+            Quaternion.identity
+        );
+        Destroy(gameObject);
+        Destroy(effect, 0.35f);
     }
 }

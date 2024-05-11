@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     private bool hasDust = true;
 
     [SerializeField]
-    private float knobackForce = 40f;
+    private float knobackForce = 80f;
 
     [SerializeField]
     private bool invertFlip = false;
@@ -29,7 +29,8 @@ public class Enemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
 
-        if (!hasDust) return;
+        if (!hasDust)
+            return;
 
         dustParticles = GetComponentInChildren<ParticleSystem>();
         dustParticles.Play();

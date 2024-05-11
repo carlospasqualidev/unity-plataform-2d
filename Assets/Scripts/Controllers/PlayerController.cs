@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     private bool _grounded = true; //Flag de chão
     private bool _bufferedJumpUsable = false; //Flag de pulo bufferizado a ser consumido
     private bool _endedJumpEarly; //Flag de pulo encerrado prematuramente
+    private bool _canMove = true; //Flag de movimento
     private float _timeJumpWasPressed; //Tempo em que o pulo foi pressionado
     private float _frameLeftGrounded = float.MinValue; //Tempo em que o jogador deixou o chão
 
@@ -91,6 +93,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!_canMove)
+            return;
         _time += Time.deltaTime; //Atualiza o tempo
 
         GetPlayerInput();
@@ -309,6 +313,8 @@ public class PlayerController : MonoBehaviour
         _animator.SetFloat("velocity_x", Mathf.Abs(_frameVelocity.x)); // seta a velocidade para contorlar a animação
 
         _animator.SetBool("is_grounded", _grounded); // seta a flag de chão para controlar a animação
+
+        _animator.SetBool("is_hurt", !_canMove); // seta a flag de chão para controlar a animação
     }
 
     private void DustParticles()
@@ -348,6 +354,7 @@ public class PlayerController : MonoBehaviour
 
     public void Knockback(KnockbackType type, float force = 50f)
     {
+        _frameInput.Move = Vector2.zero;
         switch (type)
         {
             case KnockbackType.Up:
@@ -358,11 +365,21 @@ public class PlayerController : MonoBehaviour
                 break;
             case KnockbackType.Left:
                 _frameVelocity.x = -force;
+                StartCoroutine(BlockPlayerMovementForSeconds());
                 break;
             case KnockbackType.Right:
                 _frameVelocity.x = force;
+                StartCoroutine(BlockPlayerMovementForSeconds());
                 break;
         }
+    }
+
+    IEnumerator BlockPlayerMovementForSeconds()
+    {
+        yield return null;
+        _canMove = false;
+        yield return new WaitForSeconds(0.25f);
+        _canMove = true;
     }
 
     public void Die()

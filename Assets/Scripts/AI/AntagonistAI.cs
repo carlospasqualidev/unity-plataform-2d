@@ -98,8 +98,6 @@ public class AntagonistAI : MonoBehaviour
 
         bool groundHit = Physics2D.OverlapCircle(Feet.position, 0.2f, groundLayer);
 
-        Debug.Log(groundHit);
-
         isGrounded = groundHit;
 
         if (!groundHit)
