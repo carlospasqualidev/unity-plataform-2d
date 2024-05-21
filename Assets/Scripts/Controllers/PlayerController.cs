@@ -93,8 +93,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!_canMove)
-            return;
         _time += Time.deltaTime; //Atualiza o tempo
 
         GetPlayerInput();
@@ -116,6 +114,9 @@ public class PlayerController : MonoBehaviour
 
     private void GetPlayerInput()
     {
+        if (!_canMove)
+            return;
+
         _frameInput = new FrameInput
         {
             JumpDown = Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.C), // Verifica se o botão de pulo foi pressionado neste frame
@@ -349,6 +350,9 @@ public class PlayerController : MonoBehaviour
     #region TAKE DAMAGE AND DIE
     public void TakeDamage()
     {
+        if (!_canMove)
+            return;
+
         GameManager.instance.DecrementPlayerLife();
     }
 

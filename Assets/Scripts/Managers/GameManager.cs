@@ -12,8 +12,9 @@ public class GameManager : MonoBehaviour
     public Image[] imageLifeCherrys;
     public TextMeshProUGUI playerScoreText;
     public int maxPlayerLife = 3;
-    public int playerLife;
-    public int playerScore;
+    public int playerLife = 2;
+    public int playerScore = 0;
+    public int maxPlayerScore = 7;
     public Animator fadeAnimator;
     public SceneTypes currentScene;
     public PlayerController playerController;
@@ -23,7 +24,21 @@ public class GameManager : MonoBehaviour
         if (instance == null)
             instance = this;
 
-        playerLife = maxPlayerLife;
+        InitUI();
+    }
+
+    private void InitUI()
+    {
+        //reset player life
+        imageLifeCherrys[0].color = Color.gray;
+        imageLifeCherrys[1].color = Color.gray;
+        imageLifeCherrys[2].color = Color.gray;
+        for (int i = 0; i < playerLife; i++)
+        {
+            imageLifeCherrys[i].color = Color.white;
+        }
+
+        playerScoreText.text = playerScore.ToString() + "/" + maxPlayerScore.ToString();
     }
 
     public void DecrementPlayerLife(int life = 1)
@@ -57,21 +72,19 @@ public class GameManager : MonoBehaviour
     public void IncrementPlayerScore()
     {
         playerScore++;
-        playerScoreText.text = playerScore.ToString("D3");
+        playerScoreText.text = playerScore.ToString() + "/" + maxPlayerScore.ToString();
 
-        if(playerScore >= 7)
+        if (playerScore >= maxPlayerScore)
         {
             SceneLoad(SceneTypes.Menu);
         }
     }
-
 
     #region SCENE LOADER
     public void SceneLoad(SceneTypes sceneToLoad)
     {
         StartCoroutine(LoadScene(sceneToLoad));
     }
-
 
     IEnumerator LoadScene(SceneTypes sceneToLoad)
     {
