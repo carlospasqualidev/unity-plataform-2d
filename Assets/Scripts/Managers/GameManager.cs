@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public int maxPlayerScore = 7;
     public Animator fadeAnimator;
     public SceneTypes currentScene;
+    public SceneTypes nextScene;
     public PlayerController playerController;
 
     void Start()
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
 
         if (playerScore >= maxPlayerScore)
         {
-            SceneLoad(SceneTypes.Menu);
+            SceneLoad(nextScene);
         }
     }
 
@@ -98,6 +99,8 @@ public class GameManager : MonoBehaviour
     {
         Menu,
         Level_1,
+        Level_2,
+        Final
     }
     #endregion
 }

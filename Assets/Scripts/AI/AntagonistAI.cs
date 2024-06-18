@@ -24,6 +24,7 @@ public class AntagonistAI : MonoBehaviour
     private readonly int isGroundedHash = Animator.StringToHash("is_grounded");
     private float stepTime;
     private bool isJumping;
+    private BoxCollider2D boxCollider;
 
     [Header("SOUNDS")]
     [SerializeField]
@@ -131,5 +132,15 @@ public class AntagonistAI : MonoBehaviour
             SFXController.instance.PlaySound(stepSounds, 0.25f);
             stepTime = 0f; // Resetar o tempo
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Player"))
+            return;
+
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+
+        GameManager.instance.DecrementPlayerLife();
     }
 }

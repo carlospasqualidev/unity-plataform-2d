@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static GameManager;
 
 public class Menu : MonoBehaviour
 {
+    public SceneTypes currentScene;
+
     void Update()
     {
-        if(Input.anyKeyDown == true)
+        if (Input.anyKeyDown == true)
         {
-            GameManager.instance.SceneLoad(GameManager.SceneTypes.Level_1);
-        }     
+            GameManager.instance.SceneLoad(currentScene);
+        }
     }
 }
